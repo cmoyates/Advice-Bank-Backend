@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import pool from "./db";
+//import pool from "./db";
 import post_router from "./routes/posts";
 const app = express();
 

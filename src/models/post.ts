@@ -1,6 +1,5 @@
    
 import pool from "../db";
-import pg from "pg";
 
 class Post {
     post_id: number;
