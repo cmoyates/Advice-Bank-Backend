@@ -46,18 +46,20 @@ class User {
         return allUsers.rows;
     }
 
-    static async update(id: number, user_email: string, user_name: string, user_img: string, is_admin: boolean, saved: Array<number>): Promise<void> {
-        await pool.query(
+    static async update(id: number, user_email: string, user_name: string, user_img: string, is_admin: boolean, saved: Array<number>): Promise<boolean> {
+        const result = await pool.query(
             "UPDATE users SET user_email = $1, user_name = $2, user_img = $3, is_admin = $4, saved = $5 where user_id = $6",
             [user_email, user_name, user_img, is_admin, saved, id]
         );
+        return result.rowCount === 1;
     }
 
-    static async deleteOne(id: number): Promise<void> {
-        await pool.query(
+    static async deleteOne(id: number): Promise<boolean> {
+        const result = await pool.query(
             "DELETE FROM users WHERE user_id = $1",
             [id]
         );
+        return result.rowCount === 1;
     }
 }
 

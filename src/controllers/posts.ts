@@ -5,7 +5,7 @@ const create = async (req: Request, res: Response) => {
     try {
         const {user_id, user_name, user_img, title, content, tags} = req.body;
         const newPost = await Post.create(user_id, user_name, user_img, title, content, tags);
-        res.json(newPost);
+        res.json((newPost) ? newPost : "Post could not be created");
     } catch (error) {
         console.log(error);
     }
@@ -15,7 +15,7 @@ const getOne = async (req: Request, res: Response) => {
     try {
         const {id} = req.params;
         const post = await Post.getOne(parseInt(id));
-        res.json(post);
+        res.json((post) ? post : "No post exists with that ID");
     } catch (error) {
         console.log(error);
     }
@@ -34,8 +34,8 @@ const update = async (req: Request, res: Response) => {
     try {
         const {id} = req.params;
         const {user_id, user_name, user_img, title, content, tags} = req.body;
-        await Post.update(parseInt(id), user_id, user_name, user_img, title, content, tags);
-        res.send("Post updated!");
+        const success = await Post.update(parseInt(id), user_id, user_name, user_img, title, content, tags);
+        res.send((success) ? "Post updated!" : "Post couldn't be updated");
     } catch (error) {
         console.log(error);
     }
@@ -44,8 +44,8 @@ const update = async (req: Request, res: Response) => {
 const deleteOne = async (req: Request, res: Response) => {
     try {
         const {id} = req.params;
-        await Post.deleteOne(parseInt(id));
-        res.send("Post deleted!");
+        const success = await Post.deleteOne(parseInt(id));
+        res.send((success) ? "Post deleted!" : "Post couldn't be deleted");
     } catch (error) {
         console.log(error);
     }

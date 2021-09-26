@@ -20,7 +20,7 @@ class Post {
         this.content = content;
         this.tags = tags;
         this.ts = ts;
-    }
+    };
 
     static async create(user_id: number, user_name: string, user_img: string, title: string, content: string, tags: Array<string>): Promise<Post> {
         const newPost = await pool.query(
@@ -28,7 +28,7 @@ class Post {
             [user_id, user_name, user_img, title, content, tags]
         );
         return newPost.rows[0];
-    }
+    };
 
     static async getOne(id: number): Promise<Post> {
         const post = await pool.query(
@@ -36,28 +36,30 @@ class Post {
             [id]
         );
         return post.rows[0];
-    }
+    };
 
     static async getAll(): Promise<Array<Post>> {
         const allPosts = await pool.query(
             "SELECT * FROM posts ORDER BY post_id DESC"
         );
         return allPosts.rows;
-    }
+    };
 
-    static async update(id: number, user_id: number, user_name: string, user_img: string, title: string, content: string, tags: Array<string>): Promise<void> {
-        await pool.query(
+    static async update(id: number, user_id: number, user_name: string, user_img: string, title: string, content: string, tags: Array<string>): Promise<boolean> {
+        const result = await pool.query(
             "UPDATE posts SET user_id = $1, user_name = $2, user_img = $3, title = $4, content = $5, tags = $6 where post_id = $7",
             [user_id, user_name, user_img, title, content, tags, id]
         );
-    }
+        return result.rowCount === 1;
+    };
 
-    static async deleteOne(id: number): Promise<void> {
-        await pool.query(
+    static async deleteOne(id: number): Promise<boolean> {
+        const result = await pool.query(
             "DELETE FROM posts WHERE post_id = $1",
             [id]
         );
-    }
+        return result.rowCount === 1;
+    };
 }
 
 export default Post;
