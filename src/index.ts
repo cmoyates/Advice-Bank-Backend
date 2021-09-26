@@ -1,23 +1,18 @@
 import express from "express";
 import cors from "cors";
-//import pool from "./db";
 import post_router from "./routes/posts";
+import user_router from "./routes/users";
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+
 // Posts
 app.use("/posts", post_router);
 
 // Users
-
-// Create
-// Get one
-// Get one by email
-// Get all
-// Update
-// Delete
+app.use("/users", user_router);
 
 
 app.use('/', (req, res) => {
