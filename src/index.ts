@@ -18,6 +18,7 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
+app.set("trust proxy", 1);
 app.use(session({
     secret: "secretCode",
     resave: true,
@@ -71,13 +72,16 @@ app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect(`${process.env.FRONTEND_URL}/#/dashboard`);
+    console.log("User authentication successful");
+    res.redirect(`${process.env.FRONTEND_URL}/Advice-Bank-Frontend/#/dashboard`);
   });
 app.get("/getuser", (req, res) => {
+    console.log("Getting user data");
     res.send(req.user);
 });
 app.get("/logout", (req, res) => {
     if (req.user) {
+        console.log("Logging user out");
         req.logOut();
         res.send("done");
     }
