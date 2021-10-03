@@ -58,7 +58,7 @@ passport.use(new GoogleStrategy({
                     profile.emails[0].value,
                     profile.displayName,
                     profile.photos[0].value,
-                    false
+                    0
                 );
             }
             cb(null, user);

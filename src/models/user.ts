@@ -5,22 +5,22 @@ class User {
     user_email: string;
     user_name: string;
     user_img: string;
-    is_admin: boolean;
+    user_privilege: number;
     saved: Array<number>;
 
-    constructor(id: number, user_email: string, user_name: string, user_img: string, is_admin: boolean, saved: Array<number>) {
+    constructor(id: number, user_email: string, user_name: string, user_img: string, user_privilege: number, saved: Array<number>) {
         this.user_id = id;
         this.user_email = user_email;
         this.user_name = user_name;
         this.user_img = user_img;
-        this.is_admin = is_admin;
+        this.user_privilege = user_privilege;
         this.saved = saved;
     }
 
-    static async create(user_email: string, user_name: string, user_img: string, is_admin: boolean): Promise<User> {
+    static async create(user_email: string, user_name: string, user_img: string, user_privilege: number): Promise<User> {
         const newUser = await pool.query(
-            "INSERT INTO users (user_email, user_name, user_img, is_admin, saved) VALUES($1, $2, $3, $4, $5) RETURNING *",
-            [user_email, user_name, user_img, is_admin, []]
+            "INSERT INTO users (user_email, user_name, user_img, user_privilege, saved) VALUES($1, $2, $3, $4, $5) RETURNING *",
+            [user_email, user_name, user_img, user_privilege, []]
         );
         return newUser.rows[0];
     }
@@ -46,10 +46,10 @@ class User {
         return allUsers.rows;
     }
 
-    static async update(id: number, user_email: string, user_name: string, user_img: string, is_admin: boolean, saved: Array<number>): Promise<boolean> {
+    static async update(id: number, user_email: string, user_name: string, user_img: string, user_privilege: number, saved: Array<number>): Promise<boolean> {
         const result = await pool.query(
-            "UPDATE users SET user_email = $1, user_name = $2, user_img = $3, is_admin = $4, saved = $5 where user_id = $6",
-            [user_email, user_name, user_img, is_admin, saved, id]
+            "UPDATE users SET user_email = $1, user_name = $2, user_img = $3, user_privilege = $4, saved = $5 where user_id = $6",
+            [user_email, user_name, user_img, user_privilege, saved, id]
         );
         return result.rowCount === 1;
     }

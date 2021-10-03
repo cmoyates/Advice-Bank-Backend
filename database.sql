@@ -16,6 +16,6 @@ CREATE TABLE users(
     user_email TEXT NOT NULL,
     user_name TEXT NOT NULL,
     user_img TEXT NOT NULL,
-    is_admin BOOLEAN NOT NULL,
+    user_privilege INT NOT NULL,
     saved INT []
 );

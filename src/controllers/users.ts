@@ -3,8 +3,8 @@ import User from "../models/user";
 
 const create = async (req: Request, res: Response) => {
     try {
-        const {user_email, user_name, user_img, is_admin} = req.body;
-        const newUser = await User.create(user_email, user_name, user_img, is_admin);
+        const {user_email, user_name, user_img, user_privilege} = req.body;
+        const newUser = await User.create(user_email, user_name, user_img, user_privilege);
         res.json((newUser) ? newUser : "User could not be created");
     } catch (error) {
         console.log(error);
@@ -43,8 +43,8 @@ const getAll = async (req: Request, res: Response) => {
 const update = async (req: Request, res: Response) => {
     try {
         const {id} = req.params;
-        const {user_email, user_name, user_img, is_admin, saved} = req.body;
-        const success = await User.update(parseInt(id), user_email, user_name, user_img, is_admin, saved);
+        const {user_email, user_name, user_img, user_privilege, saved} = req.body;
+        const success = await User.update(parseInt(id), user_email, user_name, user_img, user_privilege, saved);
         res.send((success) ? "User updated!" : "User couldn't be updated");
     } catch (error) {
         console.log(error);
